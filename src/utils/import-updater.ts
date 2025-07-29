@@ -1,8 +1,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-import type { FileSystemItem } from './file-scanner.js';
 import { camelCaseToKebabCase } from './helpers.js';
+import type { FileSystemItem } from '../types/index.js';
 
 /**
  * File extensions that typically contain import statements

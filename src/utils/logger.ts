@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 
-import type { FileSystemItem } from './file-scanner.js';
+import type { FileSystemItem } from '../types/index.js';
 
 export interface LogEntry {
   timestamp: string;
@@ -32,7 +32,7 @@ function generateLogContent(logEntry: LogEntry): string {
 
   const lines: string[] = [
     '='.repeat(60),
-    'Baptist - File Kebab-ification Report',
+    'Baptist - File Rename Report',
     '='.repeat(60),
     '',
     `Timestamp: ${timestamp}`,

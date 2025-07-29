@@ -61,7 +61,7 @@ export default function App({ directories, enableLogging, force }: Props) {
         });
 
         const gitStatus = checkGitStatus(directories);
-        if (gitStatus.isDirty && !force) {
+        if (gitStatus && gitStatus.isDirty && !force) {
           updateState({
             step: 'error',
             error: `Git repository has uncommitted modified files in: ${gitStatus.gitRepositories
@@ -104,7 +104,7 @@ export default function App({ directories, enableLogging, force }: Props) {
         });
 
         const moveCommands = generateMoveCommands(itemsToRename);
-        executeGitMoveCommands(moveCommands);
+        executeGitMoveCommands(moveCommands, gitStatus !== false);
 
         updateState({
           progress: 60,

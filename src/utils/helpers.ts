@@ -1,3 +1,5 @@
+import type { FileSystemItem } from '../types/index.js';
+
 /**
  * Converts a camelCase string to kebab-case.
  *
@@ -38,4 +40,40 @@ export function camelCaseToKebabCase(input: string): string {
       // Convert to lowercase
       .toLowerCase()
   );
+}
+
+/**
+ * Sorts file system items for safe renaming operations.
+ * Ensures that parent directories are renamed before their children to avoid path conflicts.
+ *
+ * @param items - Array of FileSystemItem objects to sort
+ * @returns A new sorted array of FileSystemItem objects
+ *
+ * @example
+ * const items = [
+ *   { originalPath: 'dir/SubDir', isDirectory: true, needsRename: true },
+ *   { originalPath: 'dir', isDirectory: true, needsRename: true },
+ *   { originalPath: 'file.txt', isDirectory: false, needsRename: true }
+ * ];
+ * const sorted = sortItemsForSafeRenaming(items);
+ * // Result: ['dir', 'dir/SubDir', 'file.txt'] (parent dir first, then child dir, then files)
+ */
+export function sortItemsForSafeRenaming(items: FileSystemItem[]): FileSystemItem[] {
+  return [...items].sort((a, b) => {
+    // Directories come before files
+    if (a.isDirectory && !b.isDirectory) return -1;
+    if (!a.isDirectory && b.isDirectory) return 1;
+
+    // For directories: shallower paths come first (parents before children)
+    // For files: deeper paths come first (to handle any edge cases where file order matters)
+    if (a.isDirectory && b.isDirectory) {
+      const aDepth = a.originalPath.split('/').length;
+      const bDepth = b.originalPath.split('/').length;
+      return aDepth - bDepth; // Ascending order for directories (shallow first)
+    } else {
+      const aDepth = a.originalPath.split('/').length;
+      const bDepth = b.originalPath.split('/').length;
+      return bDepth - aDepth; // Descending order for files (deep first)
+    }
+  });
 }

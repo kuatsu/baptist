@@ -1,14 +1,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-import { camelCaseToKebabCase } from './helpers.js';
-
-export interface FileSystemItem {
-  originalPath: string;
-  newPath: string;
-  isDirectory: boolean;
-  needsRename: boolean;
-}
+import { camelCaseToKebabCase, sortItemsForSafeRenaming } from './helpers.js';
+import type { FileSystemItem } from '../types/index.js';
 
 export interface ScanResult {
   items: FileSystemItem[];
@@ -130,17 +124,8 @@ export function getItemsToRename(scanResult: ScanResult): FileSystemItem[] {
 export function generateMoveCommands(items: FileSystemItem[]): string[] {
   const commands: string[] = [];
 
-  // Sort by depth (directories first, deepest first to avoid conflicts)
-  const sortedItems = [...items].sort((a, b) => {
-    // Directories come before files
-    if (a.isDirectory && !b.isDirectory) return -1;
-    if (!a.isDirectory && b.isDirectory) return 1;
-
-    // Deeper paths come first
-    const aDepth = a.originalPath.split(path.sep).length;
-    const bDepth = b.originalPath.split(path.sep).length;
-    return bDepth - aDepth;
-  });
+  // Sort items for safe renaming (parents before children)
+  const sortedItems = sortItemsForSafeRenaming(items);
 
   for (const item of sortedItems) {
     if (item.needsRename) {
@@ -148,7 +133,7 @@ export function generateMoveCommands(items: FileSystemItem[]): string[] {
       const isCaseOnlyRename = item.originalPath.toLowerCase() === item.newPath.toLowerCase();
 
       if (isCaseOnlyRename) {
-        const temporaryPath = `${item.newPath}.temp-rename`;
+        const temporaryPath = `${item.newPath}.tmp-baptist`;
         commands.push(`mv "${item.originalPath}" "${temporaryPath}"`, `mv "${temporaryPath}" "${item.newPath}"`);
       } else {
         commands.push(`mv "${item.originalPath}" "${item.newPath}"`);
