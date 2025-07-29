@@ -1,20 +1,22 @@
 {
-	"compilerOptions": {
-		"outDir": "dist",
-		"module": "node16",
-		"moduleResolution": "node16",
-		"moduleDetection": "force",
-		"target": "esnext",
-		"lib": [
-			"DOM",
-			"DOM.Iterable",
-			"ES2022" // Node.js 18
-		],
-		"resolveJsonModule": false,
-		"jsx": "react",
-		"declaration": true,
-		"strict": true,
-		"noEmitOnError": true,
-		"skipLibCheck": true
-	}
+  "compilerOptions": {
+    "outDir": "dist",
+    "module": "node16",
+    "moduleResolution": "node16",
+    "moduleDetection": "force",
+    "target": "esnext",
+    "lib": [
+      "DOM",
+      "DOM.Iterable",
+      "ES2022" // Node.js 18
+    ],
+    "resolveJsonModule": false,
+    "jsx": "react",
+    "declaration": true,
+    "strict": true,
+    "noEmitOnError": true,
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
 }

@@ -69,7 +69,7 @@ export default defineConfig([
           caughtErrorsIgnorePattern: '^_',
         },
       ],
-
+      'unicorn/no-process-exit': 'off',
       'unicorn/no-nested-ternary': 'off',
       'unicorn/prefer-top-level-await': 'off',
       'unicorn/prevent-abbreviations': [

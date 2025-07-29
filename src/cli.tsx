@@ -7,23 +7,35 @@ import App from './app.js';
 const cli = meow(
   `
 	Usage
-	  $ baptist
+	  $ baptist <directories...>
 
 	Options
-		--name  Your name
+	  --force  Force the operation to run even if the git repository has uncommitted changes
+		--log  Enable logging to baptist.log file
 
 	Examples
-	  $ baptist --name=Jane
-	  Hello, Jane
+	  $ baptist src components
+	  $ baptist src --log
+	  $ baptist . --log
 `,
   {
     importMeta: import.meta,
     flags: {
-      name: {
-        type: 'string',
+      force: {
+        type: 'boolean',
+        default: false,
+      },
+      log: {
+        type: 'boolean',
+        default: false,
       },
     },
   }
 );
 
-render(<App name={cli.flags.name} />);
+if (cli.input.length === 0) {
+  console.error('Error: Please provide at least one directory to process');
+  process.exit(1);
+}
+
+render(<App directories={cli.input} enableLogging={cli.flags.log} force={cli.flags.force} />);
