@@ -147,7 +147,7 @@ export default function App({ directories, enableLogging, force }: Props) {
     }
 
     processDirectories();
-  }, [directories, enableLogging, updateState]);
+  }, [directories, enableLogging, updateState, force]);
 
   // Exit after completion or error
   useEffect(() => {

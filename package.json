@@ -26,6 +26,7 @@
     "format": "prettier --check .",
     "lint": "eslint .",
     "test": "vitest",
+    "typecheck": "tsc --noEmit",
     "release": "release-it"
   },
   "dependencies": {
