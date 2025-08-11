@@ -2,7 +2,20 @@
   "name": "baptist",
   "version": "0.0.0",
   "license": "MIT",
-  "bin": "dist/cli.js",
+  "main": "dist/cli",
+  "source": "src/index",
+  "bin": {
+    "baptist": "./dist/cli.js"
+  },
+  "files": [
+    "src",
+    "dist",
+    "!**/__tests__",
+    "!**/__fixtures__",
+    "!**/__mocks__",
+    "!**/.*",
+    "!**/.log"
+  ],
   "type": "module",
   "engines": {
     "node": ">=16"
@@ -12,11 +25,9 @@
     "dev": "tsc --watch",
     "format": "prettier --check .",
     "lint": "eslint .",
-    "test": "vitest"
+    "test": "vitest",
+    "release": "release-it"
   },
-  "files": [
-    "dist"
-  ],
   "dependencies": {
     "@inkjs/ui": "^2.0.0",
     "ink": "^4.1.0",
@@ -37,6 +48,7 @@
     "globals": "^16.3.0",
     "ink-testing-library": "^3.0.0",
     "prettier": "^2.8.7",
+    "release-it": "^19.0.4",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.3",
     "typescript-eslint": "^8.38.0",
