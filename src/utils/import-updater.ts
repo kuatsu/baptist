@@ -2,7 +2,6 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 import { camelCaseToKebabCase } from './helpers.js';
-import type { FileSystemItem } from '../types/index.js';
 
 /**
  * File extensions that typically contain import statements
@@ -24,7 +23,7 @@ const IMPORT_PATTERNS = [
 /**
  * Update import statements in a file
  */
-function updateImportsInFile(filePath: string, pathMappings: Map<string, string>): boolean {
+function updateImportsInFile(filePath: string): boolean {
   if (!fs.existsSync(filePath)) {
     return false;
   }
@@ -92,23 +91,15 @@ function convertImportPathToKebabCase(importPath: string): string {
 /**
  * Update import statements in all files within the processed directories
  */
-export function updateImportsInFiles(directories: string[], renamedItems: FileSystemItem[]): string[] {
+export function updateImportsInFiles(directories: string[]): string[] {
   const updatedFiles: string[] = [];
-  const pathMappings = new Map<string, string>();
-
-  // Build path mappings from renamed items
-  for (const item of renamedItems) {
-    if (item.needsRename) {
-      pathMappings.set(item.originalPath, item.newPath);
-    }
-  }
 
   // Scan all files in the directories
   for (const directory of directories) {
     const files = getAllFilesRecursively(directory);
 
     for (const file of files) {
-      const wasUpdated = updateImportsInFile(file, pathMappings);
+      const wasUpdated = updateImportsInFile(file);
       if (wasUpdated) {
         updatedFiles.push(file);
       }

@@ -11,7 +11,7 @@ import tseslint from 'typescript-eslint';
 const project = path.resolve(process.cwd(), 'tsconfig.json');
 
 export default defineConfig([
-  globalIgnores(['**/.*.js', '**/node_modules/', '**/dist/', '**/*-env.d.ts', '**/*.config.cjs']),
+  globalIgnores(['**/.*.js', '**/node_modules/', '**/dist/', '**/*-env.d.ts', '**/*.config.cjs', 'test-data/']),
   eslint.configs.recommended,
   tseslint.configs.strict,
   prettierConfig,

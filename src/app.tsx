@@ -118,7 +118,7 @@ export default function App({ directories, enableLogging, force }: Props) {
           message: 'Updating import statements...',
         });
 
-        const updatedFiles = updateImportsInFiles(directories, itemsToRename);
+        const updatedFiles = updateImportsInFiles(directories);
 
         // Step 5: Write log if enabled
         if (enableLogging) {
