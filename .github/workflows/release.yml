@@ -24,7 +24,7 @@ jobs:
       - name: Setup
         uses: ./.github/actions/setup
       - name: Run unit tests
-        run: pnpm run test --maxWorkers=2 --coverage
+        run: pnpm run test run --coverage
   build-release:
     runs-on: ubuntu-latest
     needs: [lint, test]
